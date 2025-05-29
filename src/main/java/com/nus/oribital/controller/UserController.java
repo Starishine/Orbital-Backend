@@ -65,5 +65,21 @@ public class UserController {
         return "No user found with this username";
     }
 
+    @PostMapping("/login")
+    public ServiceResponse loginUser(@RequestBody User user) {
+        ServiceResponse response = null;
+        User existingUser = userRepository.findByUsername(user.getUsername());
+        if (existingUser == null) {
+            response = new ServiceResponse(404, "ERROR", null, "User not found");
+            return response;
+        }
+        if (!existingUser.getPassword().equals(user.getPassword())) {
+            response = new ServiceResponse(401, "ERROR", null, "Invalid password");
+            return response;
+        }
+        response = new ServiceResponse(200, "SUCCESS", existingUser, "Login successful");
+        return response;
+    }
+
     
 }
