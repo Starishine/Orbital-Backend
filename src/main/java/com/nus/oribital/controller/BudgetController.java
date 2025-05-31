@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,8 +49,15 @@ public class BudgetController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteBudget(@RequestBody String id) {
+    public ServiceResponse deleteBudget(@PathVariable String id) {
+        ServiceResponse response = null;
+        if (!budgetRepository.existsById(id)) {
+            response = new ServiceResponse(404, "ERROR", null, "Budget not found");
+            return response;
+        }
         budgetRepository.deleteById(id); // Delete the budget by ID from MongoDB
+        response = new ServiceResponse(200, "SUCCESS", null, "Budget deleted successfully");
+        return response;
     }
 
     @GetMapping("/get")
