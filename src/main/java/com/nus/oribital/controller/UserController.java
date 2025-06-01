@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nus.oribital.modal.ServiceResponse;
 import com.nus.oribital.modal.User;
 import com.nus.oribital.repository.UserRepository;
+import com.nus.oribital.util.JWTTokenUtil;
 
 @CrossOrigin(origins = "http://localhost:8081") // Allow cross-origin requests from the specified origin
 @RestController
@@ -28,7 +29,7 @@ public class UserController {
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
-    
+
     @PostMapping("/register")
     public ServiceResponse registerUser(@RequestBody User user) {
         ServiceResponse response = null;
@@ -45,7 +46,11 @@ public class UserController {
             return response;
         }
         userRepository.save(user); // Save user to MongoDB
-        response = new ServiceResponse(200, "SUCCESS", user, "User registered successfully");
+        JWTTokenUtil jwtUtil = new JWTTokenUtil();
+        String token = jwtUtil.generateJwtToken(user.getUsername());
+
+        response = new ServiceResponse(200, "SUCCESS", user, "Sign-up successful");
+        response.setToken(token);
         return response;
     }
 
@@ -77,9 +82,12 @@ public class UserController {
             response = new ServiceResponse(401, "ERROR", null, "Invalid password");
             return response;
         }
+        JWTTokenUtil jwtUtil = new JWTTokenUtil();
+        String token = jwtUtil.generateJwtToken(existingUser.getUsername());
+
         response = new ServiceResponse(200, "SUCCESS", existingUser, "Login successful");
+        response.setToken(token);
         return response;
     }
 
-    
 }

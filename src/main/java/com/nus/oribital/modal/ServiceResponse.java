@@ -6,6 +6,7 @@ public class ServiceResponse {
     public int code;
     public Object data;
     public String message;
+    public String token;
 
     public ServiceResponse() {
     }
@@ -48,5 +49,13 @@ public class ServiceResponse {
     public void setMessage(String message) {
         this.message = message;
     }
-    
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
 }
