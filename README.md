@@ -28,13 +28,15 @@ A web application to manage your university finances.
     ```bash
     mvn install
     ```
+    Maven installation version - 3.9.9
+    Link for windows : https://maven.apache.org/install.html
 
-3. **Run the spring-boot server**  
+4. **Run the spring-boot server**  
     ```bash
     mvn spring-boot:run
     ```
 
-4. **For frontend setup**  
+5. **For frontend setup**  
    Please refer to the frontend repository’s README for further instructions.
 
 ---
