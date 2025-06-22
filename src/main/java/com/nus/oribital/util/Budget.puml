@@ -1,0 +1,22 @@
+@startuml
+class Budget {
+    - String id
+    - String username
+    - String category
+    - String currency
+    - double amount
+
+    + Budget()
+    + Budget(String category, String username, String currency, double amount)
+    + getId(): String
+    + setId(String id): void
+    + getCategory(): String
+    + setCategory(String category): void
+    + getCurrency(): String
+    + setCurrency(String currency): void
+    + getAmount(): double
+    + setAmount(double amount): void
+    + getUsername(): String
+    + setUsername(String username): void
+}
+@enduml
