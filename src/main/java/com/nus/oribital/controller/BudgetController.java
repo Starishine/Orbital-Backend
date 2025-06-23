@@ -99,6 +99,7 @@ public class BudgetController {
         }
         existing.setAmount(updatedBudget.getAmount());
         existing.setCurrency(updatedBudget.getCurrency());
+        existing.setAmountAllocated(updatedBudget.getAmountAllocated());
         budgetRepository.save(existing);
         return new ServiceResponse(200, "SUCCESS", existing, "Budget updated successfully");
     }

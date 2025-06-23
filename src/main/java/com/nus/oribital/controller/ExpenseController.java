@@ -47,16 +47,22 @@ public class ExpenseController {
                 .orElse(null);
 
         if (budget == null) {
-            response = new ServiceResponse(400, "ERROR", null, "No budget found for this category");
+            Budget newBudget = new Budget();
+            newBudget.setUsername(userFromToken);
+            newBudget.setCategory(expense.getCategory());
+            newBudget.setCurrency(expense.getCurrency());
+            newBudget.setAmount(0.00 - expense.getAmount()); // Initialize budget amount to 0 if no budget exists
+            budgetRepository.save(newBudget); // Save the new budget to MongoDB
+            response = new ServiceResponse(200, "SUCCESS", expense, "No budget found for this category, expense recorded without budget check");
+            expenseRepository.save(expense); // Save the expense to MongoDB without budget check
             return response;
         }
 
-        //Check if the expense exceeds the budget
-        if (expense.getAmount() > budget.getAmount()) {
-            response = new ServiceResponse(400, "ERROR", null, "Expense exceeds the budget for this category");
-            return response;
-        }
-
+        // //Check if the expense exceeds the budget
+        // if (expense.getAmount() > budget.getAmount()) {
+        //     response = new ServiceResponse(400, "ERROR", null, "Expense exceeds the budget for this category");
+        //     return response;
+        // }
         //Deduct the expense amount from the budget
         budget.setAmount(budget.getAmount() - expense.getAmount());
         budgetRepository.save(budget); // Save the updated budget to MongoDB
