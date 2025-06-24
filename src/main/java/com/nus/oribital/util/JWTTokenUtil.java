@@ -11,7 +11,7 @@ import io.jsonwebtoken.security.Keys;
 public class JWTTokenUtil {
 
     private static final String JWT_SECRET = "NUSOribital!2025Semester2HappyCoding"; // Use a strong secret in production
-    private static final long JWT_EXPIRATION_MS = 86400000; // 1 day
+    private static final long JWT_EXPIRATION_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
     /**
      * Utiluty method to generate a JWT token for a given username.

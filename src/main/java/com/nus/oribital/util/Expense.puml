@@ -1,0 +1,27 @@
+@startuml
+class Expense {
+    - String id
+    - String username
+    - String category
+    - String currency
+    - double amount
+    - String date
+    - String notes
+
+    + Expense(double amount, String category, String currency, String notes)
+    + getId(): String
+    + setId(String id): void
+    + getUsername(): String
+    + setUsername(String username): void
+    + getCategory(): String
+    + setCategory(String category): void
+    + getCurrency(): String
+    + setCurrency(String currency): void
+    + getAmount(): double
+    + setAmount(double amount): void
+    + getDate(): String
+    + setDate(String date): void
+    + getNotes(): String
+    + setNotes(String notes): void
+}
+@enduml

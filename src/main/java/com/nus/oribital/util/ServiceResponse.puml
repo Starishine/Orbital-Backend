@@ -1,0 +1,22 @@
+@startuml
+class ServiceResponse {
+    + String status
+    + int code
+    + Object data
+    + String message
+    + String token
+
+    + ServiceResponse()
+    + ServiceResponse(int code, String status, Object data, String message)
+    + getStatus(): String
+    + setStatus(String status): void
+    + getCode(): int
+    + setCode(int code): void
+    + getData(): Object
+    + setData(Object data): void
+    + getMessage(): String
+    + setMessage(String message): void
+    + getToken(): String
+    + setToken(String token): void
+}
+@enduml

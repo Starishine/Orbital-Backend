@@ -12,15 +12,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nus.oribital.modal.Budget;
 import com.nus.oribital.modal.ServiceResponse;
 import com.nus.oribital.repository.BudgetRepository;
 import com.nus.oribital.util.JWTTokenUtil;
-
-import io.jsonwebtoken.Claims;
 
 @CrossOrigin(origins = "http://localhost:8081") // Allow cross-origin requests from the specified origin
 @RestController
@@ -102,7 +99,9 @@ public class BudgetController {
         }
         existing.setAmount(updatedBudget.getAmount());
         existing.setCurrency(updatedBudget.getCurrency());
+        existing.setAmountAllocated(updatedBudget.getAmountAllocated());
         budgetRepository.save(existing);
         return new ServiceResponse(200, "SUCCESS", existing, "Budget updated successfully");
     }
+
 }
