@@ -1,6 +1,7 @@
 package com.nus.oribital.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.nus.oribital.modal.Budget;
 import com.nus.oribital.modal.Expense;
@@ -63,8 +65,30 @@ public class ExpenseController {
         //     response = new ServiceResponse(400, "ERROR", null, "Expense exceeds the budget for this category");
         //     return response;
         // }
-        //Deduct the expense amount from the budget
-        budget.setAmount(budget.getAmount() - expense.getAmount());
+        double expenseAmount = expense.getAmount();
+        // Convert the expense amount to the budget's currency if necessary
+        if (!expense.getCurrency().equalsIgnoreCase(budget.getCurrency())) {
+            String apiURL = "https://api.exchangerate-api.com/v4/latest/" + expense.getCurrency();
+            RestTemplate restTemplate = new RestTemplate();
+            try {
+                @SuppressWarnings("unchecked")
+                Map<String, Object> responseMap = restTemplate.getForObject(apiURL, Map.class);
+                Map<String, Double> rates = (Map<String, Double>) responseMap.get("rates");
+                Double exchangeRate = rates.get(budget.getCurrency());
+                if (exchangeRate != null) {
+                    expenseAmount = expense.getAmount() * exchangeRate; // Convert to budget's currency
+                } else {
+                    response = new ServiceResponse(400, "ERROR", null, "Currency conversion rate not found");
+                    return response;
+                }
+            } catch (Exception e) {
+                response = new ServiceResponse(500, "ERROR", null, "Error fetching exchange rate: " + e.getMessage());
+                return response;
+            }
+        }
+
+        // Deduct the expense amount from the budget
+        budget.setAmount(budget.getAmount() - expenseAmount);
         budgetRepository.save(budget); // Save the updated budget to MongoDB
 
         // Save the expense

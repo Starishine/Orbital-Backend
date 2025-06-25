@@ -62,13 +62,25 @@ public class BudgetController {
             response = new ServiceResponse(404, "ERROR", null, "Budget not found");
             return response;
         }
+
         if (!userFromToken.equals(existing.getUsername())) {
             response = new ServiceResponse(403, "ERROR", null, "Unauthorized Access: User does not match token");
             return response;
         }
-        budgetRepository.deleteById(id); // Delete the budget by ID from MongoDB
-        response = new ServiceResponse(200, "SUCCESS", null, "Budget deleted successfully");
-        return response;
+
+        // Check if there are expenses associated with this budget, reset allocated to 0.00
+        if (existing.getAmountAllocated() - existing.getAmount() > 0) {
+            existing.setAmount(existing.getAmount() - existing.getAmountAllocated()); // Update the remaining budget amount to be negative
+            existing.setAmountAllocated(0.00); // Reset the allocated amount to 0.00
+            budgetRepository.save(existing); // Save the updated budget to MongoDB
+            response = new ServiceResponse(200, "SUCCESS", null, "Amount allocated reset to 0.00, budget not deleted");
+            return response;
+        } else {
+            // No expenses associated, proceed with deletion
+            budgetRepository.deleteById(id); // Delete the budget by ID from MongoDB
+            response = new ServiceResponse(200, "SUCCESS", null, "Budget deleted successfully");
+            return response;
+        }
     }
 
     @GetMapping("/get")
