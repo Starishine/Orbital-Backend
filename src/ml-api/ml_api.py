@@ -55,7 +55,8 @@ def feedback(feedback: FeedbackInput = Body(...)):
     global data, descriptions, categories, vectorizer, X, model
     new_row = {"description": feedback.description.lower().strip(), "category": feedback.correct_category}
     # Use pd.concat instead of append (append is deprecated)
-    data = pd.concat([data, pd.DataFrame([new_row])], ignore_index=True)
+    upweight_factor = 500
+    data = pd.concat([data, pd.DataFrame([new_row] * upweight_factor)], ignore_index=True)
     descriptions = data["description"].tolist()
     categories = data["category"].tolist()
     # Re-instantiate vectorizer and model for retraining
@@ -65,4 +66,17 @@ def feedback(feedback: FeedbackInput = Body(...)):
     model.fit(X, categories)
     # Save updated data to CSV for persistence
     data.to_csv("training_data.csv", index=False)
-    return {"message": "Model retrained with new feedback."}
+    
+    # Debug printout: check prediction on the feedback description
+    norm_desc = feedback.description.lower().strip()
+    test_vec = vectorizer.transform([norm_desc])
+    new_pred = model.predict(test_vec)[0]
+    print(f"Added row: {new_row}")
+    print(f"Prediction immediately after feedback: {new_pred}")
+    print(f"Top 3 probs: {model.predict_proba(test_vec)[0]}")
+    print(f"Data shape after append: {data.shape}")
+    return {
+        "message": "Model retrained with new feedback.",
+        "new_prediction": new_pred
+    }
+    
