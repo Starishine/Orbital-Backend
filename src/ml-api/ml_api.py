@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
+from sklearn.linear_model import LogisticRegression 
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import Body
 
@@ -24,7 +25,8 @@ categories = data["category"].tolist()
 vectorizer = TfidfVectorizer()
 X = vectorizer.fit_transform(descriptions)
 
-model = MultinomialNB()
+# model = MultinomialNB()
+model = LogisticRegression(max_iter=1000)  # Using Logistic Regression for better performance
 model.fit(X, categories)
 
 class ExpenseInput(BaseModel):
@@ -62,7 +64,8 @@ def feedback(feedback: FeedbackInput = Body(...)):
     # Re-instantiate vectorizer and model for retraining
     vectorizer = TfidfVectorizer()
     X = vectorizer.fit_transform(descriptions)
-    model = MultinomialNB()
+    # model = MultinomialNB()
+    model = LogisticRegression(max_iter=1000)
     model.fit(X, categories)
     # Save updated data to CSV for persistence
     data.to_csv("training_data.csv", index=False)

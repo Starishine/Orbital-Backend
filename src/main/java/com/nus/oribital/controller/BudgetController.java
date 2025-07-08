@@ -112,6 +112,8 @@ public class BudgetController {
         existing.setAmount(updatedBudget.getAmount());
         existing.setCurrency(updatedBudget.getCurrency());
         existing.setAmountAllocated(updatedBudget.getAmountAllocated());
+        existing.setInterval(updatedBudget.getInterval());
+        existing.setExpiryDate(updatedBudget.getExpiryDate());
         budgetRepository.save(existing);
         return new ServiceResponse(200, "SUCCESS", existing, "Budget updated successfully");
     }
