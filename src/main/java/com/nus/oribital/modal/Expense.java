@@ -65,7 +65,7 @@ public class Expense {
         this.date = date;
     }
 
-    public String getNotes() {
+    public String getName() {
         return name;
     }
 
