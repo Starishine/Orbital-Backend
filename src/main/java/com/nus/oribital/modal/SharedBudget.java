@@ -6,9 +6,12 @@ public class SharedBudget {
 
     private String id;
     private String budgetName;
-    private double amount;
+    private double amountAllocated; // amount allocated to the shared budget
+    private double amount; // remaining amount in the shared budget
     private String currency;
-    private List<Invite> invites;
+    private String inviter;
+    private String inviterEmail;
+    private List<Invitee> invites;
 
     public String getId() {
         return id;
@@ -34,6 +37,14 @@ public class SharedBudget {
         this.amount = amount;
     }
 
+    public double getAmountAllocated() {
+        return amountAllocated;
+    }
+
+    public void setAmountAllocated(double amountAllocated) {
+        this.amountAllocated = amountAllocated;
+    }
+
     public String getCurrency() {
         return currency;
     }
@@ -42,11 +53,27 @@ public class SharedBudget {
         this.currency = currency;
     }
 
-    public List<Invite> getInvites() {
+    public List<Invitee> getInvites() {
         return invites;
     }
 
-    public void setInvites(List<Invite> invites) {
+    public void setInvites(List<Invitee> invites) {
         this.invites = invites;
+    }
+
+    public String getInviter() {
+        return inviter;
+    }
+
+    public void setInviter(String inviter) {
+        this.inviter = inviter;
+    }
+
+    public String getInviterEmail() {
+        return inviterEmail;
+    }
+
+    public void setInviterEmail(String inviterEmail) {
+        this.inviterEmail = inviterEmail;
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nus.oribital.modal.CheckAccountRequest;
 import com.nus.oribital.modal.ServiceResponse;
 import com.nus.oribital.modal.User;
 import com.nus.oribital.repository.UserRepository;
@@ -87,6 +88,18 @@ public class UserController {
 
         response = new ServiceResponse(200, "SUCCESS", existingUser, "Login successful");
         response.setToken(token);
+        return response;
+    }
+
+    @PostMapping("/checkAccount")
+    public ServiceResponse checkAccount(@RequestBody CheckAccountRequest request) {
+        ServiceResponse response = null;
+        User existingUser = userRepository.findByUsernameAndEmail(request.getUsername(), request.getEmail());
+        if (existingUser == null) {
+            response = new ServiceResponse(404, "ERROR", null, "User not found");
+            return response;
+        }
+        response = new ServiceResponse(200, "SUCCESS", null, "Account details retrieved successfully");
         return response;
     }
 

@@ -1,6 +1,6 @@
 package com.nus.oribital.modal;
 
-public class Invite {
+public class CheckAccountRequest {
 
     private String username;
     private String email;
