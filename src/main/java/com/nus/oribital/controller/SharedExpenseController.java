@@ -49,8 +49,29 @@ public class SharedExpenseController {
             return response;
         }
 
+        double expenseAmount = expenseData.getAmount();
+        // Convert the expense amount to the budget's currency if necessary
+        if (!expenseData.getCurrency().equalsIgnoreCase(budget.getCurrency())) {
+            String apiURL = "https://api.exchangerate-api.com/v4/latest/" + expenseData.getCurrency();
+            org.springframework.web.client.RestTemplate restTemplate = new org.springframework.web.client.RestTemplate();
+            try {
+                @SuppressWarnings("unchecked")
+                java.util.Map<String, Object> responseMap = restTemplate.getForObject(apiURL, java.util.Map.class);
+                java.util.Map<String, Double> rates = (java.util.Map<String, Double>) responseMap.get("rates");
+                Double exchangeRate = rates.get(budget.getCurrency());
+                if (exchangeRate != null) {
+                    expenseAmount = expenseData.getAmount() * exchangeRate; // Convert to budget's currency
+                } else {
+                    response = new ServiceResponse(400, "ERROR", null, "Currency conversion rate not found");
+                    return response;
+                }
+            } catch (Exception e) {
+                response = new ServiceResponse(500, "ERROR", null, "Error fetching exchange rate: " + e.getMessage());
+                return response;
+            }
+        }
         // Update the budget amount by deducting the expense amount
-        budget.setAmount(budget.getAmount() - expenseData.getAmount());
+        budget.setAmount(budget.getAmount() - expenseAmount);
         // Ensure that budget id = expense id for retrieval purposes
         expenseData.setBudgetId(budget.getId());
         sharedBudgetRepository.save(budget); // Save the updated budget to MongoDB

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,6 +52,29 @@ public class SharedBudgetController {
         sharedBudgetRepository.save(sharedBudget); // Save the shared budget to MongoDB
         return new ServiceResponse(200, "SUCCESS", sharedBudget, "Shared budget created successfully");
 
+    }
+
+    @PutMapping("/update")
+    public ServiceResponse updateSharedBudget(@RequestBody SharedBudget sharedBudget, @RequestHeader("Authorization") String authHeader) {
+        ServiceResponse response = null;
+
+        if (sharedBudget.getId() == null || sharedBudget.getId().isEmpty()) {
+            return new ServiceResponse(400, "ERROR", null, "Shared budget ID is required for update");
+        }
+
+        SharedBudget existingBudget = sharedBudgetRepository.findById(sharedBudget.getId()).orElse(null);
+        if (existingBudget == null) {
+            return new ServiceResponse(404, "ERROR", null, "Shared budget not found");
+        }
+
+        existingBudget.setBudgetName(sharedBudget.getBudgetName());
+        existingBudget.setAmount(sharedBudget.getAmount());
+        existingBudget.setAmountAllocated(sharedBudget.getAmountAllocated());
+        existingBudget.setCurrency(sharedBudget.getCurrency());
+        // existingBudget.setInvites(sharedBudget.getInvites());
+
+        sharedBudgetRepository.save(existingBudget); // Save the updated shared budget to MongoDB
+        return new ServiceResponse(200, "SUCCESS", existingBudget, "Shared budget updated successfully");
     }
 
     @GetMapping("/accept")
