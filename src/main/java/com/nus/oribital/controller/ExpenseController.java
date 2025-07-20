@@ -56,6 +56,8 @@ public class ExpenseController {
             newBudget.setCategory(expense.getCategory());
             newBudget.setCurrency(expense.getCurrency());
             newBudget.setAmount(0.00 - expense.getAmount()); // Initialize budget amount to 0 if no budget exists
+            newBudget.setExpiryDate("");
+            newBudget.setDateCreated(expense.getDate());
             budgetRepository.save(newBudget); // Save the new budget to MongoDB
             response = new ServiceResponse(200, "SUCCESS", expense, "No budget found for this category, expense recorded without budget check");
             expenseRepository.save(expense); // Save the expense to MongoDB without budget check

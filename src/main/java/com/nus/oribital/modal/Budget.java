@@ -13,15 +13,21 @@ public class Budget {
     private String currency;
     private double amountAllocated;
     private double amount;
+    private String interval;
+    private String dateCreated;
+    private String expiryDate;
 
     public Budget() {
     }
 
-    public Budget(String category, String username, String currency, double amount) {
+    public Budget(String category, String username, String currency, double amount, String interval, String dateCreated, String expiryDate) {
         this.category = category;
         this.username = username;
         this.currency = currency;
         this.amount = amount;
+        this.interval = interval;
+        this.dateCreated = dateCreated;
+        this.expiryDate = expiryDate;
     }
 
     public String getId() {
@@ -70,5 +76,29 @@ public class Budget {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getInterval() {
+        return interval;
+    }
+
+    public void setInterval(String interval) {
+        this.interval = interval;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public String getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(String expiryDate) {
+        this.expiryDate = expiryDate;
     }
 }

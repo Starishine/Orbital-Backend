@@ -111,9 +111,12 @@ public class BudgetController {
         if (!userFromToken.equals(existing.getUsername())) {
             return new ServiceResponse(403, "ERROR", null, "Unauthorized Access: User does not match token");
         }
+
         existing.setAmount(updatedBudget.getAmount());
         existing.setCurrency(updatedBudget.getCurrency());
         existing.setAmountAllocated(updatedBudget.getAmountAllocated());
+        existing.setInterval(updatedBudget.getInterval());
+        existing.setExpiryDate(updatedBudget.getExpiryDate());
         budgetRepository.save(existing);
         return new ServiceResponse(200, "SUCCESS", existing, "Budget updated successfully");
     }
