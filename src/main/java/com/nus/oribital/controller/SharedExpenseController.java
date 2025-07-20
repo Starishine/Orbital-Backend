@@ -92,4 +92,6 @@ public class SharedExpenseController {
     public List<SharedExpense> getSharedExpensesByBudget(@RequestParam("budgetId") String budgetId) {
         return sharedExpenseRepository.findAllByBudgetId(budgetId);
     }
+
+    
 }

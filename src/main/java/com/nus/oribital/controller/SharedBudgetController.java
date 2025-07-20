@@ -19,6 +19,7 @@ import com.nus.oribital.modal.ServiceResponse;
 import com.nus.oribital.modal.SharedBudget;
 import com.nus.oribital.repository.SharedBudgetRepository;
 import com.nus.oribital.util.EmailUtil;
+import com.nus.oribital.util.JWTTokenUtil;
 
 @RestController
 @RequestMapping("/shared-budget")
@@ -103,6 +104,20 @@ public class SharedBudgetController {
     @GetMapping("/get")
     public List<SharedBudget> getSharedBudgets(@RequestHeader("Authorization") String authHeader) {
         return sharedBudgetRepository.findAll();
+    }
+
+    @GetMapping("/get-by-user")
+    public List<SharedBudget> getSharedBudgetsByUser(@RequestHeader("Authorization") String authHeader) {
+        // Extract token from header
+        String token = authHeader.replace("Bearer ", "");
+        String userFromToken = new JWTTokenUtil().getUser(token);
+
+        if (userFromToken == null) {
+            throw new RuntimeException("Invalid or expired token");
+        }
+
+        // Retrieve all shared budgets for the user
+        return sharedBudgetRepository.findAllByUser(userFromToken);
     }
 
 }
