@@ -26,13 +26,15 @@ public class BudgetController {
 
     @Autowired
     private BudgetRepository budgetRepository;
+    @Autowired
+    private JWTTokenUtil jwtTokenUtil;
 
     @PostMapping("/create")
     public ServiceResponse createBudget(@RequestBody Budget budget, @RequestHeader("Authorization") String authHeader) {
         ServiceResponse response = null;
         // Extract token from header
         String token = authHeader.replace("Bearer ", "");
-        String userFromToken = new JWTTokenUtil().getUser(token);
+        String userFromToken = jwtTokenUtil.getUser(token);
 
         if (userFromToken == null || budget.getAmount() <= 0) {
             response = new ServiceResponse(400, "ERROR", null, "Username and amount must be provided");
@@ -56,7 +58,7 @@ public class BudgetController {
         ServiceResponse response = null;
         // Extract token from header
         String token = authHeader.replace("Bearer ", "");
-        String userFromToken = new JWTTokenUtil().getUser(token);
+        String userFromToken = jwtTokenUtil.getUser(token);
         Budget existing = budgetRepository.findById(id).orElse(null);
         if (existing == null) {
             response = new ServiceResponse(404, "ERROR", null, "Budget not found");
@@ -87,7 +89,7 @@ public class BudgetController {
     public List<Budget> getBudget(@RequestHeader("Authorization") String authHeader) {
         // Extract token from header (format: "Bearer <token>")
         String token = authHeader.replace("Bearer ", "");
-        String user = new JWTTokenUtil().getUser(token);
+        String user = jwtTokenUtil.getUser(token);
 
         // check if userFromToken matches the username param
         if (user == null) {
@@ -100,7 +102,7 @@ public class BudgetController {
     public ServiceResponse updateBudget(@RequestBody Budget updatedBudget, @RequestHeader("Authorization") String authHeader) {
         // Extract token from header
         String token = authHeader.replace("Bearer ", "");
-        String userFromToken = new JWTTokenUtil().getUser(token);
+        String userFromToken = jwtTokenUtil.getUser(token);
 
         Budget existing = budgetRepository.findById(updatedBudget.getId()).orElse(null);
         if (existing == null) {
