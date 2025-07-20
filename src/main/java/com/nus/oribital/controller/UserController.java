@@ -25,8 +25,6 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private JWTTokenUtil jwtTokenUtil;
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
@@ -49,7 +47,7 @@ public class UserController {
             return response;
         }
         userRepository.save(user); // Save user to MongoDB
-        String token = jwtTokenUtil.generateJwtToken(user.getUsername());
+        String token = new JWTTokenUtil().generateJwtToken(user.getUsername());
 
         response = new ServiceResponse(200, "SUCCESS", user, "Sign-up successful");
         response.setToken(token);
@@ -84,8 +82,8 @@ public class UserController {
             response = new ServiceResponse(401, "ERROR", null, "Invalid password");
             return response;
         }
-    
-        String token = jwtTokenUtil.generateJwtToken(existingUser.getUsername());
+
+        String token = new JWTTokenUtil().generateJwtToken(existingUser.getUsername());
 
         response = new ServiceResponse(200, "SUCCESS", existingUser, "Login successful");
         response.setToken(token);

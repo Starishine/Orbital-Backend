@@ -30,15 +30,13 @@ public class ExpenseController {
 
     @Autowired
     private BudgetRepository budgetRepository;
-    @Autowired
-    private JWTTokenUtil jwtTokenUtil;
 
     @PostMapping("/create")
     public ServiceResponse createExpense(@RequestBody Expense expense, @RequestHeader("Authorization") String authHeader) {
         ServiceResponse response = null;
         // Extract token from header
         String token = authHeader.replace("Bearer ", "");
-        String userFromToken = jwtTokenUtil.getUser(token);
+        String userFromToken = new JWTTokenUtil().getUser(token);
 
         if (expense.getAmount() <= 0 || expense.getCategory() == null || userFromToken == null) {
             response = new ServiceResponse(400, "ERROR", null, "Invalid expense data");
@@ -105,7 +103,7 @@ public class ExpenseController {
     public List<Expense> getExpenses(@RequestHeader("Authorization") String authHeader) {
         // Extract token from header (format: "Bearer <token>")
         String token = authHeader.replace("Bearer ", "");
-        String user = jwtTokenUtil.getUser(token);
+        String user = new JWTTokenUtil().getUser(token);
 
         // check if userFromToken matches the username param
         if (user == null) {
