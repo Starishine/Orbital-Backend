@@ -45,7 +45,7 @@ public class SharedBudgetController {
                         EmailUtil.renderInviteEmail(sharedBudget.getInviter(),
                                 sharedBudget.getInviterEmail(),
                                 invitee.getUsername(),
-                                sharedBudget.getBudgetName(),
+                                sharedBudget.getCategory(),
                                 "http://localhost:8081/welcomeInvite?token=" + invitee.getToken()));
             });
         }
@@ -68,7 +68,7 @@ public class SharedBudgetController {
             return new ServiceResponse(404, "ERROR", null, "Shared budget not found");
         }
 
-        existingBudget.setBudgetName(sharedBudget.getBudgetName());
+        existingBudget.setCategory(sharedBudget.getCategory());
         existingBudget.setAmount(sharedBudget.getAmount());
         existingBudget.setAmountAllocated(sharedBudget.getAmountAllocated());
         existingBudget.setCurrency(sharedBudget.getCurrency());

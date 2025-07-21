@@ -42,7 +42,7 @@ public class SharedExpenseController {
             return response;
         }
         // Check if the user has a budget for the specified category
-        SharedBudget budget = sharedBudgetRepository.findByUserAndBudgetName(userFromToken, expenseData.getCategory()).orElse(null);
+        SharedBudget budget = sharedBudgetRepository.findByUserAndCategory(userFromToken, expenseData.getCategory()).orElse(null);
 
         if (budget == null) {
             response = new ServiceResponse(404, "ERROR", null, "No budget found for this category");
@@ -93,5 +93,4 @@ public class SharedExpenseController {
         return sharedExpenseRepository.findAllByBudgetId(budgetId);
     }
 
-    
 }
