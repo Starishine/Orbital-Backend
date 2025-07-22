@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +17,6 @@ import com.nus.oribital.modal.User;
 import com.nus.oribital.repository.UserRepository;
 import com.nus.oribital.util.JWTTokenUtil;
 
-@CrossOrigin(origins = "http://localhost:8081") // Allow cross-origin requests from the specified origin
 @RestController
 @RequestMapping("/signup")
 public class UserController {
