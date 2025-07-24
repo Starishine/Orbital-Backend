@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -23,7 +22,6 @@ import com.nus.oribital.util.JWTTokenUtil;
 
 @RestController
 @RequestMapping("/shared-budget")
-@CrossOrigin(origins = "http://localhost:8081") // Allow cross-origin requests from the specified origin
 
 public class SharedBudgetController {
 
@@ -45,8 +43,8 @@ public class SharedBudgetController {
                         EmailUtil.renderInviteEmail(sharedBudget.getInviter(),
                                 sharedBudget.getInviterEmail(),
                                 invitee.getUsername(),
-                                sharedBudget.getBudgetName(),
-                                "http://localhost:8081/welcomeInvite?token=" + invitee.getToken()));
+                                sharedBudget.getCategory(),
+                                "http://ec2-13-214-147-199.ap-southeast-1.compute.amazonaws.com/welcomeInvite?token=" + invitee.getToken()));
             });
         }
 
@@ -68,7 +66,7 @@ public class SharedBudgetController {
             return new ServiceResponse(404, "ERROR", null, "Shared budget not found");
         }
 
-        existingBudget.setBudgetName(sharedBudget.getBudgetName());
+        existingBudget.setCategory(sharedBudget.getCategory());
         existingBudget.setAmount(sharedBudget.getAmount());
         existingBudget.setAmountAllocated(sharedBudget.getAmountAllocated());
         existingBudget.setCurrency(sharedBudget.getCurrency());

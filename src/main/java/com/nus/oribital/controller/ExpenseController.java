@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +19,6 @@ import com.nus.oribital.repository.BudgetRepository;
 import com.nus.oribital.repository.ExpenseRepository;
 import com.nus.oribital.util.JWTTokenUtil;
 
-@CrossOrigin(origins = "http://localhost:8081") // Allow cross-origin requests from the specified origin
 @RestController
 @RequestMapping("/expense")
 public class ExpenseController {

@@ -20,11 +20,12 @@ public class Budget {
     public Budget() {
     }
 
-    public Budget(String category, String username, String currency, double amount, String interval, String dateCreated, String expiryDate) {
+    public Budget(String category, String username, String currency, double amount, double amountAllocated, String interval, String dateCreated, String expiryDate) {
         this.category = category;
         this.username = username;
         this.currency = currency;
         this.amount = amount;
+        this.amountAllocated = amountAllocated;
         this.interval = interval;
         this.dateCreated = dateCreated;
         this.expiryDate = expiryDate;

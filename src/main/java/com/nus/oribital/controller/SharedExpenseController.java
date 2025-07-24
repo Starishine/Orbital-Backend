@@ -3,7 +3,6 @@ package com.nus.oribital.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +18,6 @@ import com.nus.oribital.repository.SharedBudgetRepository;
 import com.nus.oribital.repository.SharedExpenseRepository;
 import com.nus.oribital.util.JWTTokenUtil;
 
-@CrossOrigin(origins = "http://localhost:8081") // Allow cross-origin requests from the specified origin
 @RestController
 @RequestMapping("/shared-expense")
 public class SharedExpenseController {
@@ -42,7 +40,7 @@ public class SharedExpenseController {
             return response;
         }
         // Check if the user has a budget for the specified category
-        SharedBudget budget = sharedBudgetRepository.findByUserAndBudgetName(userFromToken, expenseData.getCategory()).orElse(null);
+        SharedBudget budget = sharedBudgetRepository.findByUserAndCategory(userFromToken, expenseData.getCategory()).orElse(null);
 
         if (budget == null) {
             response = new ServiceResponse(404, "ERROR", null, "No budget found for this category");
@@ -93,5 +91,4 @@ public class SharedExpenseController {
         return sharedExpenseRepository.findAllByBudgetId(budgetId);
     }
 
-    
 }

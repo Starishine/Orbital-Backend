@@ -13,8 +13,8 @@ public interface SharedBudgetRepository extends MongoRepository<SharedBudget, St
     @Query("{ 'invites.token': ?0 }")
     SharedBudget findByInviteeToken(String token);
 
-    @Query("{ $or: [ { 'inviter': ?0 }, { 'invites.username': ?0 } ], 'budgetName': ?1 }")
-    Optional<SharedBudget> findByUserAndBudgetName(String username, String budgetName);
+    @Query("{ $or: [ { 'inviter': ?0 }, { 'invites.username': ?0 } ], 'category': ?1 }")
+    Optional<SharedBudget> findByUserAndCategory(String username, String category);
 
     @Query("{ $or: [ { 'inviter': ?0 }, { 'invites.username': ?0 } ] }")
     List<SharedBudget> findAllByUser(String username);

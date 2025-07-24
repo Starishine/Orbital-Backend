@@ -3,7 +3,6 @@ package com.nus.oribital.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +18,6 @@ import com.nus.oribital.modal.ServiceResponse;
 import com.nus.oribital.repository.BudgetRepository;
 import com.nus.oribital.util.JWTTokenUtil;
 
-@CrossOrigin(origins = "http://localhost:8081") // Allow cross-origin requests from the specified origin
 @RestController
 @RequestMapping("/budget")
 public class BudgetController {
