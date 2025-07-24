@@ -44,7 +44,7 @@ public class SharedBudgetController {
                                 sharedBudget.getInviterEmail(),
                                 invitee.getUsername(),
                                 sharedBudget.getCategory(),
-                                "http://localhost:8081/welcomeInvite?token=" + invitee.getToken()));
+                                "http://ec2-13-214-147-199.ap-southeast-1.compute.amazonaws.com/welcomeInvite?token=" + invitee.getToken()));
             });
         }
 
