@@ -1,4 +1,4 @@
-package com.nus.oribital.controller;
+package com.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nus.oribital.modal.User;
@@ -108,7 +108,6 @@ public class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("ERROR"));
     }
-
 
     @Test
     public void testRegisterUser_WhitespaceUsernamePassword() throws Exception {

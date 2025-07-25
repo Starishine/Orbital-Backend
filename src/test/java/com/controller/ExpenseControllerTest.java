@@ -1,4 +1,4 @@
-package com.nus.oribital.controller;
+package com.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nus.oribital.modal.Budget;
