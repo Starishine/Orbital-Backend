@@ -1,10 +1,9 @@
 import pandas as pd
-import sys
+import gc
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
-from sklearn.ensemble import RandomForestClassifier  # Or LogisticRegression
 from sklearn.metrics import classification_report
 from sklearn.preprocessing import LabelEncoder
 import joblib
@@ -61,3 +60,7 @@ joblib.dump(pipeline, "budget_insights_model.pkl")
 joblib.dump(le, "label_encoder.pkl")
 
 print("Done! Model saved as budget_insights_model.pkl")
+
+# Release memory
+del X, X_train, X_test, y, y_encoded, y_train, y_test, df, pipeline, preprocessor, le, y_pred
+gc.collect()
