@@ -38,13 +38,20 @@ public class SharedBudgetController {
                 invitee.setToken(UUID.randomUUID().toString()); // Generate a unique token for each invitee
                 invitee.setStatus("invited"); // Set initial status to invited
 
+                String baseUrl = System.getenv("PUBLIC_BACKEND_URL");
+                if (baseUrl == null || baseUrl.isEmpty()) {
+                    baseUrl = "http://localhost:9080"; // fallback when env var not set
+                }
+
+                String inviteLink = baseUrl + "/welcomeInvite?token=" + invitee.getToken();
+
                 EmailUtil.sendMail(sharedBudget.getInviterEmail(), invitee.getEmail(),
                         "You're Invited to a Shared Budget!",
                         EmailUtil.renderInviteEmail(sharedBudget.getInviter(),
                                 sharedBudget.getInviterEmail(),
                                 invitee.getUsername(),
                                 sharedBudget.getCategory(),
-                                "http://ec2-13-214-147-199.ap-southeast-1.compute.amazonaws.com/welcomeInvite?token=" + invitee.getToken()));
+                                "http://localhost:9080/welcomeInvite?token=" + invitee.getToken()));
             });
         }
 
