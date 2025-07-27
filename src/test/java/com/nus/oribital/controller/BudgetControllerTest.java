@@ -46,6 +46,7 @@ public class BudgetControllerTest {
     }
 
     // Test for creating a budget successfully
+
     @Test
     public void testCreateBudget_Success() throws Exception {
         Budget budget = new Budget();
@@ -88,6 +89,7 @@ public class BudgetControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("ERROR"));
     }
+
 
     // Testing invalid budget creation
     @Test

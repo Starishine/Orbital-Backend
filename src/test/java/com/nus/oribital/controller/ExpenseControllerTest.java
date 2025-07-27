@@ -78,7 +78,7 @@ public class ExpenseControllerTest {
         // .andExpect(jsonPath("$.data.amount").value(20.0));
     }
 
-    // Test for creating an expense without a budget
+// Test for creating an expense without a budget
     @Test
     public void testCreateExpense_SuccessWithoutBudget() throws Exception {
         Expense expense = new Expense(15.0, "Transport", "SGD", TEST_USERNAME);

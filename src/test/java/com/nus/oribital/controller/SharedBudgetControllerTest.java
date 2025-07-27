@@ -51,11 +51,44 @@ public class SharedBudgetControllerTest {
         Mockito.when(jwtTokenUtil.getUser(Mockito.anyString())).thenReturn(TEST_USERNAME);
     }
 
-    // Test for updating a shared budget successfully
+    // @Test
+    // public void testCreateSharedBudget_Success() throws Exception {
+    //     Invitee invitee = new Invitee();
+    //     invitee.setUsername("invitee1");
+    //     invitee.setEmail("invitee1@email.com");
+
+    //     SharedBudget sharedBudget = new SharedBudget(
+    //         "Group Food",           // category
+    //         200.0,                  // amount
+    //         0.0,                    // spent
+    //         "SGD",                  // currency
+    //         Collections.singletonList(invitee), // invites
+    //         TEST_USERNAME,          // inviter
+    //         TEST_EMAIL              // inviterEmail
+    //     );
+
+    //     // Mock static EmailUtil.sendMail and EmailUtil.renderInviteEmail
+    //     try (MockedStatic<EmailUtil> emailUtilMock = Mockito.mockStatic(EmailUtil.class)) {
+    //         emailUtilMock.doNothing().when(() -> EmailUtil.sendMail(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString()));
+    //         emailUtilMock.when(() -> EmailUtil.renderInviteEmail(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
+    //                 .thenReturn("Rendered Email");
+
+    //         mockMvc.perform(post("/shared-budget/create")
+    //                 .header(AUTH_HEADER, TEST_TOKEN)
+    //                 .contentType(MediaType.APPLICATION_JSON)
+    //                 .content(objectMapper.writeValueAsString(sharedBudget)))
+    //                 .andDo(print())
+    //                 .andExpect(status().isOk())
+    //                 .andExpect(jsonPath("$.status").value("SUCCESS"))
+    //                 .andExpect(jsonPath("$.data.category").value("Group Food"))
+    //                 .andExpect(jsonPath("$.data.inviter").value(TEST_USERNAME));
+    //     }
+    // }
+
     @Test
     public void testUpdateSharedBudget_Success() throws Exception {
         SharedBudget sharedBudget = new SharedBudget(
-                "Group Food", 200.0, 0.0, "SGD", new ArrayList<>(), TEST_USERNAME, TEST_EMAIL
+            "Group Food", 200.0, 0.0, "SGD", new ArrayList<>(), TEST_USERNAME, TEST_EMAIL
         );
         sharedBudget = sharedBudgetRepository.save(sharedBudget);
 
@@ -73,11 +106,12 @@ public class SharedBudgetControllerTest {
                 .andExpect(jsonPath("$.data.category").value("Updated Category"));
     }
 
+
     // Test for updating a shared budget with missing ID
     @Test
     public void testUpdateSharedBudget_NotFound() throws Exception {
         SharedBudget sharedBudget = new SharedBudget(
-                "Group Food", 200.0, 0.0, "SGD", new ArrayList<>(), TEST_USERNAME, TEST_EMAIL
+            "Group Food", 200.0, 0.0, "SGD", new ArrayList<>(), TEST_USERNAME, TEST_EMAIL
         );
         sharedBudget.setId("nonexistent-id");
 
@@ -94,7 +128,7 @@ public class SharedBudgetControllerTest {
     @Test
     public void testGetSharedBudgets_Success() throws Exception {
         SharedBudget sharedBudget = new SharedBudget(
-                "Group Food", 200.0, 0.0, "SGD", new ArrayList<>(), TEST_USERNAME, TEST_EMAIL
+            "Group Food", 200.0, 0.0, "SGD", new ArrayList<>(), TEST_USERNAME, TEST_EMAIL
         );
         sharedBudgetRepository.save(sharedBudget);
 
@@ -105,5 +139,6 @@ public class SharedBudgetControllerTest {
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].category").value("Group Food"));
     }
+
 
 }
