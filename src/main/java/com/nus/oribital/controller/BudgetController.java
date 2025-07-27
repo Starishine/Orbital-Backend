@@ -25,6 +25,7 @@ public class BudgetController {
     @Autowired
     private BudgetRepository budgetRepository;
 
+    // Create Budget
     @PostMapping("/create")
     public ServiceResponse createBudget(@RequestBody Budget budget, @RequestHeader("Authorization") String authHeader) {
         ServiceResponse response = null;
@@ -49,6 +50,7 @@ public class BudgetController {
 
     }
 
+    // Delete Budget 
     @DeleteMapping("/delete/{id}")
     public ServiceResponse deleteBudget(@PathVariable String id, @RequestHeader("Authorization") String authHeader) {
         ServiceResponse response = null;
@@ -81,6 +83,7 @@ public class BudgetController {
         }
     }
 
+    // Get Budget by token
     @GetMapping("/get")
     public List<Budget> getBudget(@RequestHeader("Authorization") String authHeader) {
         // Extract token from header (format: "Bearer <token>")
@@ -94,6 +97,7 @@ public class BudgetController {
         return budgetRepository.findByUsername(user); // Retrieve all budgets from MongoDB by username
     }
 
+    // Update Budget 
     @PutMapping("/update")
     public ServiceResponse updateBudget(@RequestBody Budget updatedBudget, @RequestHeader("Authorization") String authHeader) {
         // Extract token from header

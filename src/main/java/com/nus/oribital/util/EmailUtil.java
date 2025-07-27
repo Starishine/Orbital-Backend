@@ -1,25 +1,20 @@
-// You need javax.mail dependency in your project
 package com.nus.oribital.util;
 
+import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.Version;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Session;
 import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
-
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
-import freemarker.template.Version;
-import java.io.StringWriter;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class EmailUtil {
 

@@ -28,6 +28,7 @@ public class SharedBudgetController {
     @Autowired
     private SharedBudgetRepository sharedBudgetRepository;
 
+    // Create Shared Budget
     @PostMapping("/create")
     public ServiceResponse createSharedBudget(@RequestBody SharedBudget sharedBudget, @RequestHeader("Authorization") String authHeader) {
         ServiceResponse response = null;
@@ -53,6 +54,7 @@ public class SharedBudgetController {
 
     }
 
+    // Update Shared Budget
     @PutMapping("/update")
     public ServiceResponse updateSharedBudget(@RequestBody SharedBudget sharedBudget, @RequestHeader("Authorization") String authHeader) {
         ServiceResponse response = null;
@@ -76,6 +78,7 @@ public class SharedBudgetController {
         return new ServiceResponse(200, "SUCCESS", existingBudget, "Shared budget updated successfully");
     }
 
+    // Accept Shared Budget Invitation
     @GetMapping("/accept")
     public ServiceResponse acceptSharedBudget(@RequestParam("token") String token) {
         ServiceResponse response = null;
@@ -99,11 +102,13 @@ public class SharedBudgetController {
         return new ServiceResponse(200, "SUCCESS", budget, "Invitation accepted");
     }
 
+    // Get all Shared Budgets
     @GetMapping("/get")
     public List<SharedBudget> getSharedBudgets(@RequestHeader("Authorization") String authHeader) {
         return sharedBudgetRepository.findAll();
     }
 
+    // Get Shared Budgets by User
     @GetMapping("/get-by-user")
     public List<SharedBudget> getSharedBudgetsByUser(@RequestHeader("Authorization") String authHeader) {
         // Extract token from header

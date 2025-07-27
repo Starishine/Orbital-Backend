@@ -6,7 +6,6 @@ public class SharedExpense extends Expense {
 
     public SharedExpense(String name, String category, String currency, double amount, String date) {
         super(amount, category, currency, name);
-        this.budgetId = budgetId;
     }
 
     public String getBudgetId() {

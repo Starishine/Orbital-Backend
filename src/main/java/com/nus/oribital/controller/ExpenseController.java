@@ -29,6 +29,7 @@ public class ExpenseController {
     @Autowired
     private BudgetRepository budgetRepository;
 
+    // Create Expense
     @PostMapping("/create")
     public ServiceResponse createExpense(@RequestBody Expense expense, @RequestHeader("Authorization") String authHeader) {
         ServiceResponse response = null;
@@ -97,6 +98,7 @@ public class ExpenseController {
         return response;
     }
 
+    // Get all Expenses by token
     @GetMapping("/get")
     public List<Expense> getExpenses(@RequestHeader("Authorization") String authHeader) {
         // Extract token from header (format: "Bearer <token>")

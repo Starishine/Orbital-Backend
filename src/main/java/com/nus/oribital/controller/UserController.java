@@ -29,6 +29,7 @@ public class UserController {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
+    // Register User
     @PostMapping("/register")
     public ServiceResponse registerUser(@RequestBody User user) {
         ServiceResponse response = null;
@@ -52,11 +53,13 @@ public class UserController {
         return response;
     }
 
+    // Get all Users
     @GetMapping("/get")
     public List<User> getAllUsers() {
         return userRepository.findAll(); // Retrieve all users from MongoDB
     }
 
+    // Get Password by Username
     @GetMapping("/getPassword")
     public String getPassword(@RequestBody String username) {
         List<User> users = userRepository.findAll();
@@ -68,6 +71,7 @@ public class UserController {
         return "No user found with this username";
     }
 
+    // Login User
     @PostMapping("/login")
     public ServiceResponse loginUser(@RequestBody User user) {
         ServiceResponse response = null;
@@ -88,6 +92,7 @@ public class UserController {
         return response;
     }
 
+    // Check Account
     @PostMapping("/checkAccount")
     public ServiceResponse checkAccount(@RequestBody CheckAccountRequest request) {
         ServiceResponse response = null;
