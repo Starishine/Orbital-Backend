@@ -45,6 +45,8 @@ public class BudgetControllerTest {
         Mockito.when(jwtTokenUtil.getUser(Mockito.anyString())).thenReturn(TEST_USERNAME);
     }
 
+    // Test for creating a budget successfully
+
     @Test
     public void testCreateBudget_Success() throws Exception {
         Budget budget = new Budget();
@@ -60,8 +62,9 @@ public class BudgetControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("ERROR"));
-        }
+    }
 
+    // Test for creating a budget with a duplicate category
     @Test
     public void testCreateBudget_DuplicateCategory() throws Exception {
         Budget budget = new Budget();
@@ -87,6 +90,8 @@ public class BudgetControllerTest {
                 .andExpect(jsonPath("$.status").value("ERROR"));
     }
 
+
+    // Testing invalid budget creation
     @Test
     public void testCreateBudget_InvalidAmount() throws Exception {
         Budget budget = new Budget();
@@ -104,7 +109,7 @@ public class BudgetControllerTest {
                 .andExpect(jsonPath("$.status").value("ERROR"));
     }
 
-   
+    // Test for invalid delete operation
     @Test
     public void testDeleteBudget_NotFound() throws Exception {
         mockMvc.perform(delete("/budget/delete/invalid-id")

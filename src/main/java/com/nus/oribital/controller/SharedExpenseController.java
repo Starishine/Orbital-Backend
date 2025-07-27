@@ -28,6 +28,7 @@ public class SharedExpenseController {
     @Autowired
     private SharedBudgetRepository sharedBudgetRepository;
 
+    // Create Shared Expense
     @PostMapping("/create")
     public ServiceResponse createSharedExpense(@RequestBody SharedExpense expenseData, @RequestHeader("Authorization") String authHeader) {
         ServiceResponse response = null;
@@ -81,11 +82,13 @@ public class SharedExpenseController {
         return response;
     }
 
+    // Get all Shared Expenses
     @GetMapping("/get")
     public List<SharedExpense> getAllSharedExpenses() {
         return sharedExpenseRepository.findAll(); // Retrieve all shared expenses from MongoDB
     }
 
+    // Get Shared Expenses by Budget ID
     @GetMapping("/get-by-budget")
     public List<SharedExpense> getSharedExpensesByBudget(@RequestParam("budgetId") String budgetId) {
         return sharedExpenseRepository.findAllByBudgetId(budgetId);

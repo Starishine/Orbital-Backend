@@ -47,6 +47,7 @@ public class ExpenseControllerTest {
     private static final String TEST_TOKEN = "Bearer test-token";
     private static final String TEST_USERNAME = "testuser";
 
+    // Setup method to clear repositories and mock JWT token utility
     @BeforeEach
     public void setup() {
         expenseRepository.deleteAll();
@@ -54,6 +55,7 @@ public class ExpenseControllerTest {
         Mockito.when(jwtTokenUtil.getUser(Mockito.anyString())).thenReturn(TEST_USERNAME);
     }
 
+    // Test for creating an expense with a valid budget
     @Test
     public void testCreateExpense_SuccessWithBudget() throws Exception {
         Budget budget = new Budget();
@@ -64,7 +66,6 @@ public class ExpenseControllerTest {
         budgetRepository.save(budget);
 
         Expense expense = new Expense(20.0, "Food", "SGD", TEST_USERNAME);
-       
 
         mockMvc.perform(post("/expense/create")
                 .header(AUTH_HEADER, TEST_TOKEN)
@@ -73,10 +74,11 @@ public class ExpenseControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("ERROR"));
-               // .andExpect(jsonPath("$.data.category").value("Food"))
-               // .andExpect(jsonPath("$.data.amount").value(20.0));
+        // .andExpect(jsonPath("$.data.category").value("Food"))
+        // .andExpect(jsonPath("$.data.amount").value(20.0));
     }
 
+// Test for creating an expense without a budget
     @Test
     public void testCreateExpense_SuccessWithoutBudget() throws Exception {
         Expense expense = new Expense(15.0, "Transport", "SGD", TEST_USERNAME);
@@ -88,10 +90,11 @@ public class ExpenseControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value("ERROR"));
-                //.andExpect(jsonPath("$.data.category").value("Transport"))
-                //.andExpect(jsonPath("$.data.amount").value(15.0));
+        //.andExpect(jsonPath("$.data.category").value("Transport"))
+        //.andExpect(jsonPath("$.data.amount").value(15.0));
     }
 
+    // Test for creating an expense with an invalid amount
     @Test
     public void testCreateExpense_InvalidAmount() throws Exception {
         Expense expense = new Expense(0.0, "Food", "SGD", TEST_USERNAME);
@@ -105,6 +108,7 @@ public class ExpenseControllerTest {
                 .andExpect(jsonPath("$.status").value("ERROR"));
     }
 
+    // Test for creating an expense with an invalid category
     @Test
     public void testCreateExpense_InvalidToken() throws Exception {
         Mockito.when(jwtTokenUtil.getUser(Mockito.anyString())).thenReturn(null);

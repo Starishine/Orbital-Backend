@@ -106,6 +106,8 @@ public class SharedBudgetControllerTest {
                 .andExpect(jsonPath("$.data.category").value("Updated Category"));
     }
 
+
+    // Test for updating a shared budget with missing ID
     @Test
     public void testUpdateSharedBudget_NotFound() throws Exception {
         SharedBudget sharedBudget = new SharedBudget(
@@ -122,6 +124,7 @@ public class SharedBudgetControllerTest {
                 .andExpect(jsonPath("$.status").value("ERROR"));
     }
 
+    // Test for accepting a shared budget invitation successfully
     @Test
     public void testGetSharedBudgets_Success() throws Exception {
         SharedBudget sharedBudget = new SharedBudget(
@@ -136,5 +139,6 @@ public class SharedBudgetControllerTest {
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].category").value("Group Food"));
     }
+
 
 }

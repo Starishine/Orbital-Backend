@@ -9,8 +9,12 @@ from typing import List, Optional
 import joblib
 import numpy as np
 
+### Expense Categorization API ###
+
+# Initialize FastAPI app
 app = FastAPI()
 
+# CORS middleware to allow requests from the frontend
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:8081"], 
@@ -19,20 +23,25 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Load pre-trained model and vectorizer
 data = pd.read_csv("training_data.csv")
 data["description"] = data["description"].str.lower().str.strip()
 descriptions = data["description"].tolist()
 categories = data["category"].tolist()
 
+# Initialize vectorizer and model
 vectorizer = TfidfVectorizer()
 X = vectorizer.fit_transform(descriptions)
 
+# Train the Multinomial Naive Bayes model
 model = MultinomialNB()
 model.fit(X, categories)
 
+# input schema for expense categorization
 class ExpenseInput(BaseModel):
     description: str
 
+# Endpoint to categorize expenses
 @app.post("/categorize")
 def categorize_expense(expense: ExpenseInput):
     input_text = [expense.description.lower().strip()]
@@ -59,7 +68,7 @@ def feedback(feedback: FeedbackInput = Body(...)):
     # Load data only when needed
     data = pd.read_csv("training_data.csv")
     new_row = {"description": feedback.description.lower().strip(), "category": feedback.correct_category}
-    upweight_factor = 10
+    upweight_factor = 25
     data = pd.concat([data, pd.DataFrame([new_row] * upweight_factor)], ignore_index=True)
     # Save updated data to CSV for persistence
     data.to_csv("training_data.csv", index=False)
@@ -72,15 +81,16 @@ def feedback(feedback: FeedbackInput = Body(...)):
     model_local = MultinomialNB()
     model_local.fit(X_local, categories)
 
+    # Optionally update global model/vectorizer
+    global vectorizer, model
+    vectorizer = vectorizer_local
+    model = model_local
+
     # Test prediction on the feedback description
     norm_desc = feedback.description.lower().strip()
-    test_vec = vectorizer_local.transform([norm_desc])
-    new_pred = model_local.predict(test_vec)[0]
+    test_vec = vectorizer.transform([norm_desc])
+    new_pred = model.predict(test_vec)[0]
 
-    # Release memory
-    del data, descriptions, categories, X_local, vectorizer_local, model_local
-    import gc
-    gc.collect()
     print(f"Added row: {new_row}")
     print(f"Prediction immediately after feedback: {new_pred}")
     print(f"Top 3 probs: {model.predict_proba(test_vec)[0]}")
@@ -89,6 +99,8 @@ def feedback(feedback: FeedbackInput = Body(...)):
         "message": "Model retrained with new feedback.",
         "new_prediction": new_pred
     }
+
+### Budget Insights API ###
 
 # Load pre-trained pipeline
 pipeline = joblib.load("budget_insights_model.pkl")
