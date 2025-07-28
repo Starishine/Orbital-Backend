@@ -5,11 +5,15 @@
 ---
 
 ## About
+
 A web application to manage your university finances.
+
+Website: [http://ec2-18-141-203-5.ap-southeast-1.compute.amazonaws.com](http://ec2-18-141-203-5.ap-southeast-1.compute.amazonaws.com)
 
 ---
 
 ## Details
+
 - **Level of Achievement**: Apollo  
 - **Developers**:  
   - Chaudhari Moushami Sujeet  
@@ -19,54 +23,73 @@ A web application to manage your university finances.
 
 ## Instructions
 
-1. **Ensure that you have Java and Maven installed** 
+### Prerequisites
 
-    Maven installation version - 3.9.9
-    Link for windows : https://maven.apache.org/install.html
+- **Java JDK**: 21.0.5 ([Download for Windows](https://www.oracle.com/ae/java/technologies/downloads/#java21))
+- **Maven**: 3.9.9 ([Download for Windows](https://maven.apache.org/install.html))
 
-    Java JDK used - Java - 21.0.5
-    Link for windows : https://www.oracle.com/ae/java/technologies/downloads/#java21
+---
 
-## Option 1 :  Instructions for Github clone
+### Option 1: Clone from GitHub
 
-1. **Clone the repository**  
+1. **Clone the repository:**
     ```bash
     git clone <repository-url>
     ```
-2. **See step 3 onwards**
+2. **Continue from Step 3 below.**
 
-## Option 2 :  Download and unzip project folder
+---
 
-1. **Select “Extract All” and extract the contents completely**
-   
-2. **Open terminal and navigate inside the project folder**
-   ```bash
+### Option 2: Download and Unzip the Project Folder
+
+1. **Extract the contents completely using "Extract All".**
+2. **Open a terminal and navigate to the project folder:**
+    ```bash
     cd Orbital-Backend
     ```
-3. **Install the required maven packages**  
+3. **Install required Maven packages:**
     ```bash
     mvn install
     ```
-
-4. **Run the spring-boot server**  
+4. **Run the Spring Boot server:**
     ```bash
     mvn spring-boot:run
     ```
-5. **Open another terminal and navigate to** 
-     ```bash
-    cd Orbital-Backend\src\ml-api
+5. **Open another terminal and navigate to the ML API:**
+    ```bash
+    cd Orbital-Backend/src/ml-api
     ```
-6. **Run FASTAPI server using**
+6. **Run the FastAPI server:**
     ```bash
     uvicorn ml_api:app --reload
     ```
-7. **Open your browser and visit:  (Ensure frontend setup is also completed)**
-   ```bash
+7. **Download the Email Server:**
+
+    [Download Fake SMTP Server](https://drive.google.com/file/d/1mzDdd5oCsMtE_6Wrbo-pNWUYUuRxx6so/view?usp=sharing)
+
+8. **Extract all contents from your downloads.**
+9. **Open another terminal and run:**
+    ```bash
+    cd <path-to-MailServer>
+    java -jar fake-smtp-server-2.4.2.jar --spring.config.location="C:\Downloads\MailServer\config\"
+    ```
+10. **Visit the Email Server in your browser:**
+    ```
+    http://localhost:9080
+    ```
+
+11. **Visit the main application in your browser (ensure frontend setup is complete):**
+    ```
     http://localhost:8081
-    ``` 
-     
-8. **For frontend setup**  
-   Please refer to the frontend repository’s README for further instructions.
+    ```
+
+12. **To run unit tests:**
+    ```bash
+    mvn test
+    ```
+
+13. **For frontend setup:**  
+    Please refer to the frontend repository’s README for further instructions.
 
 ---
 
